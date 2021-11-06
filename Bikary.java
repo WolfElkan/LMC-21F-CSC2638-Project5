@@ -50,31 +50,68 @@ class Bikary {
 	void showTree() {
 		showTree(0, '*');
 	}
-	void showDict(String prefix) {
-		if (entries.length() > 0) {
+	void showDict(String prefix, int spaces, boolean freqOnly) {
+		int minEntries = 1;
+		if (entries.length() >= minEntries) {
 			System.out.print(prefix);
-			System.out.print(' ');
-			System.out.println(entries);
+			for (int j = 0; j < spaces; j++) {
+				System.out.print(" ");
+			}
+			if (freqOnly) {
+				System.out.printf("%5d",entries.length());
+				System.out.println();
+			} else {
+				System.out.println(entries);
+			}
 		}
 		for (int i = 0; i < 26; i++) {
 			if (children[i] != null) {
 				char c = (char) (i+65);
-				children[i].showDict(prefix + c);
+				children[i].showDict(prefix + c, spaces-1, freqOnly);
 			}
-		}		
+		}
+	}
+	void showDict(int spaces) {
+		showDict("", spaces, false);
 	}
 	void showDict() {
-		showDict("");
+		int depth = getDepth();
+		showDict("", getDepth(), false);
+		System.out.print("(Longest word: ");
+		System.out.print(depth-1);
+		System.out.println(" letters)");
+	}
+	void showFreq(int spaces) {
+		showDict("", spaces, true);
+	}
+	void showFreq() {
+		int depth = getDepth();
+		showDict("", getDepth(), true);
+		System.out.print("(Longest word: ");
+		System.out.print(depth-1);
+		System.out.println(" letters)");
+	}
+	int getDepth() {
+		int max = 0;
+		for (int i = 0; i < 26; i++) {
+			if (children[i] != null) {
+				int curChildDepth = children[i].getDepth();
+				if (curChildDepth > max) {
+					max = curChildDepth;
+				}
+			}
+		}
+		return max + 1;
 	}
 	public static void main(String[] args) {
 		Bikary test = new Bikary();
 		Node node = new Node(0,0);
 		test.addWord("word", node);
 		test.addWord("abc", node);
+		test.addWord("tenletters", node);
 		test.showDict();
 		// 845 - 21960
 		// String a = "arrow";
 		// char c = 'x';
-		// System.out.println(a+c);
 	}
 }

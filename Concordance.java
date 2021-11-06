@@ -29,8 +29,8 @@ class Concordance {
 
 		Concordance mobydick = new Concordance();
 		mobydick.ingestFile(args[0], start, end);
-		mobydick.bikary.showDict();
-
+		// mobydick.bikary.showDict();
+		mobydick.bikary.showFreq();
 
 		long runtime = System.currentTimeMillis() - START;
 		long sec = runtime / 1000;
