@@ -33,18 +33,6 @@ class Bikary {
 		} else {
 			entries.push(occurance);
 		}
-		// if (suffix.length() == 0) {
-		// 	entries.push(occurance);
-		// } else {
-		// 	char c = suffix.charAt(0);
-		// 	suffix = suffix.substring(1);
-		// 	// do {
-		// 	// 	if (suffix.length() == 0) break;
-		// 	// 	c = suffix.charAt(0);
-		// 	// 	suffix = suffix.substring(1);
-		// 	// } while (!isLetter(c)); 
-
-		
 	}
 	void showTree(int level, char c) {
 		for (int j = 0; j < level; j++) {
@@ -62,14 +50,31 @@ class Bikary {
 	void showTree() {
 		showTree(0, '*');
 	}
+	void showDict(String prefix) {
+		if (entries.length() > 0) {
+			System.out.print(prefix);
+			System.out.print(' ');
+			System.out.println(entries);
+		}
+		for (int i = 0; i < 26; i++) {
+			if (children[i] != null) {
+				char c = (char) (i+65);
+				children[i].showDict(prefix + c);
+			}
+		}		
+	}
+	void showDict() {
+		showDict("");
+	}
 	public static void main(String[] args) {
 		Bikary test = new Bikary();
 		Node node = new Node(0,0);
 		test.addWord("word", node);
 		test.addWord("abc", node);
-		// test.showTree();
-		test.showTree();
-		// System.out.println(test.children[0].children[1].children[2].entries);
-		// System.out.println(test.children[15]);
+		test.showDict();
+		// 845 - 21960
+		// String a = "arrow";
+		// char c = 'x';
+		// System.out.println(a+c);
 	}
 }

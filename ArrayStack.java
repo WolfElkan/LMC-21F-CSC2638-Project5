@@ -16,7 +16,8 @@ public class ArrayStack {
 		return _array_length;
 	}
 	public String toString() {
-		String str = "[";
+		// String str = "[";
+		String str = "";
 		int cur = 0;
 		while (cur < _length) {
 			str += array[cur].toString();
@@ -25,7 +26,7 @@ public class ArrayStack {
 			}
 			cur++;
 		}
-		str += " <-";
+		// str += " <-";
 		return str;
 	}
 	private void doubleCapacity() {
