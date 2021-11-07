@@ -97,7 +97,9 @@ class Bikary {
 		System.out.println(" letters)");
 	}
 	void show(char mode, int minEntries) {
-		if (mode == 'T') {
+		if (mode == 'N') {
+
+		} else if (mode == 'T') {
 			showTree();
 		} else {
 			int depth = getDepth();

@@ -33,11 +33,12 @@ class Concordance {
 			minFreq = Integer.parseInt(args[4]);
 		}
 
-		Concordance mobydick = new Concordance();
-		mobydick.ingestFile(args[0], start, end);
-		mobydick.bikary.show(mode, minFreq);
+		Concordance concord = new Concordance();
+		concord.ingestFile(args[0], start, end);
+		concord.bikary.show(mode, minFreq);
 
 		long runtime = System.currentTimeMillis() - START;
+
 		long sec = runtime / 1000;
 		long mil = runtime % 1000;
 		String pad = "";
