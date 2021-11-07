@@ -50,8 +50,7 @@ class Bikary {
 	void showTree() {
 		showTree(0, '*');
 	}
-	void showDict(String prefix, int spaces, boolean freqOnly) {
-		int minEntries = 1;
+	void showDict(String prefix, int spaces, boolean freqOnly, int minEntries) {
 		if (entries.length() >= minEntries) {
 			System.out.print(prefix);
 			for (int j = 0; j < spaces; j++) {
@@ -67,29 +66,46 @@ class Bikary {
 		for (int i = 0; i < 26; i++) {
 			if (children[i] != null) {
 				char c = (char) (i+65);
-				children[i].showDict(prefix + c, spaces-1, freqOnly);
+				children[i].showDict(prefix + c, spaces-1, freqOnly, minEntries);
 			}
 		}
 	}
+	void showDict(int spaces, int minEntries) {
+		showDict("", spaces, false, minEntries);
+	}
 	void showDict(int spaces) {
-		showDict("", spaces, false);
+		showDict("", spaces, false, 1);
 	}
 	void showDict() {
 		int depth = getDepth();
-		showDict("", getDepth(), false);
+		showDict("", depth, false, 1);
 		System.out.print("(Longest word: ");
 		System.out.print(depth-1);
 		System.out.println(" letters)");
 	}
+	void showFreq(int spaces, int minEntries) {
+		showDict("", spaces, true, minEntries);
+	}
 	void showFreq(int spaces) {
-		showDict("", spaces, true);
+		showDict("", spaces, true, 1);
 	}
 	void showFreq() {
 		int depth = getDepth();
-		showDict("", getDepth(), true);
+		showDict("", depth, true, 1);
 		System.out.print("(Longest word: ");
 		System.out.print(depth-1);
 		System.out.println(" letters)");
+	}
+	void show(char mode, int minEntries) {
+		if (mode == 'T') {
+			showTree();
+		} else {
+			int depth = getDepth();
+			showDict("", depth, mode == 'F', minEntries);
+			System.out.print("(Longest word: ");
+			System.out.print(depth-1);
+			System.out.println(" letters)");
+		}
 	}
 	int getDepth() {
 		int max = 0;

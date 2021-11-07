@@ -13,24 +13,29 @@ class Concordance {
 	public static void main(String[] args) {
 		long START = System.currentTimeMillis();
 
-		int start;
+		int start = 0;
 		if (args.length > 1) {
 			start = Integer.parseInt(args[1]);
-		} else {
-			start = 0;
 		}
 
-		int end;
+		int end = -1;
 		if (args.length > 2) {
 			end = Integer.parseInt(args[2]);
-		} else {
-			end = -1;
+		}
+
+		char mode = 'D';
+		if (args.length > 3) {
+			mode = args[3].charAt(0);
+		}
+
+		int minFreq = 1;
+		if (args.length > 4) {
+			minFreq = Integer.parseInt(args[4]);
 		}
 
 		Concordance mobydick = new Concordance();
 		mobydick.ingestFile(args[0], start, end);
-		// mobydick.bikary.showDict();
-		mobydick.bikary.showFreq();
+		mobydick.bikary.show(mode, minFreq);
 
 		long runtime = System.currentTimeMillis() - START;
 		long sec = runtime / 1000;
