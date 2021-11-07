@@ -97,13 +97,33 @@ class Bikary {
 		System.out.println(" letters)");
 	}
 	void show(char mode, int minEntries) {
-		if (mode == 'N') {
-
+		if (mode == '?') {
+			System.out.println("T: Show tree");
+			System.out.println("W: Count unique words");
+			System.out.println("E: Count total words");
+			System.out.println("F: List words with frequency");
+			System.out.println("D: List words with occurances");
+			System.out.println("N: Count total nulls");
 		} else if (mode == 'T') {
 			showTree();
-		} else {
+		} else if (mode == 'W') {
+			System.out.print(nNodes());
+			System.out.println(" unique words");
+		} else if (mode == 'E') {
+			System.out.print(nEntries());
+			System.out.println(" total words");
+		} else if (mode == 'N') {
+			System.out.print(nNulls());
+			System.out.println(" null elements");
+		} else if (mode == 'F') {
 			int depth = getDepth();
-			showDict("", depth, mode == 'F', minEntries);
+			showDict("", depth, true, minEntries);
+			System.out.print("(Longest word: ");
+			System.out.print(depth-1);
+			System.out.println(" letters)");
+		} else if (mode == 'D') {
+			int depth = getDepth();
+			showDict("", depth, false, minEntries);
 			System.out.print("(Longest word: ");
 			System.out.print(depth-1);
 			System.out.println(" letters)");
@@ -121,15 +141,46 @@ class Bikary {
 		}
 		return max + 1;
 	}
+	int nNodes() {
+		int total = 0;
+		if (entries.length() >= 1) {
+			total++;
+		}
+		for (int i = 0; i < 26; i++) {
+			if (children[i] != null) {
+				total += children[i].nNodes();
+			}
+		}
+		return total;
+	}
+	int nNulls() {
+		int total = 0;
+		for (int i = 0; i < 26; i++) {
+			if (children[i] != null) {
+				total += children[i].nNulls();
+			} else {
+				total++;
+			}
+		}
+		return total;
+	}
+	int nEntries() {
+		int total = entries.length();
+		for (int i = 0; i < 26; i++) {
+			if (children[i] != null) {
+				total += children[i].nEntries();
+			}
+		}
+		return total;
+	}
 	public static void main(String[] args) {
 		Bikary test = new Bikary();
 		Node node = new Node(0,0);
 		test.addWord("word", node);
 		test.addWord("abc", node);
 		test.addWord("tenletters", node);
-		test.showDict();
+		test.addWord("tenletters", new Node(1,1));
+		System.out.println(test.nEntries());
 		// 845 - 21960
-		// String a = "arrow";
-		// char c = 'x';
 	}
 }
